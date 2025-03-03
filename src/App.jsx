@@ -7,6 +7,7 @@ import Admission from "./pages/Admission";
 import Actualite from "./pages/Actualite";
 import Alumni from "./pages/Alumni";
 import Contact from "./pages/Contact";
+import _404 from "./pages/_404";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/actualite" element={<Actualite />} />
           <Route path="/alumni" element={<Alumni />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<_404 />} />
         </Routes>
       </Layout>
     </Router>
