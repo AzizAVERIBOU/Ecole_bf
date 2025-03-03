@@ -1,0 +1,123 @@
+/* Reset de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+footer {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Style général pour les pages */
+.main-content > div {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+}
+
+/* Style pour les titres */
+h1 {
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Styles des conteneurs */
+.container,
+.container-fluid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Reset des styles Bootstrap par défaut */
+.container-fluid {
+  padding: 0 20px !important;
+  margin: 0 auto !important;
+  max-width: 1200px !important;
+}
+
+/* Styles pour le contenu principal */
+.main-content .container {
+  max-width: 1200px;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+/* Réinitialisation des styles Bootstrap */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles des conteneurs spécifiques aux sections */
+.main-content .container,
+.main-content .container-fluid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Ne pas affecter les conteneurs du footer */
+.footer-wrapper .container-fluid {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Reset des conteneurs Bootstrap */
+.container,
+.container-fluid {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+} 
