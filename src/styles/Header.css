@@ -22,11 +22,15 @@
   width: 100%;
 }
 
-.logo a {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  text-decoration: none;
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .navigation ul {
@@ -41,9 +45,36 @@
   color: #333;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .navigation a:hover {
   color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.navigation a.active {
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+  font-weight: 600;
+}
+
+.navigation a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #007bff;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navigation a:hover::after,
+.navigation a.active::after {
+  width: 100%;
 } 

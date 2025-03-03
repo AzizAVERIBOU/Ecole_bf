@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import '../styles/Header.css';
 
 const Header = () => {
@@ -7,17 +7,19 @@ const Header = () => {
     <header className="header">
       <div className="header-content">
         <div className="logo">
-          <Link to="/">Logo</Link>
+          <Link to="/">
+            <img src="/images/logo.png" alt="Logo" className="header-logo" />
+          </Link>
         </div>
         <nav className="navigation">
           <ul>
-            <li><Link to="/">Accueil</Link></li>
-            <li><Link to="/about">À propos</Link></li>
-            <li><Link to="/formation">Formation</Link></li>
-            <li><Link to="/admission">Admission</Link></li>
-            <li><Link to="/actualite">Actualité</Link></li>
-            <li><Link to="/alumni">Alumni</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+            <li><NavLink to="/" end>Accueil</NavLink></li>
+            <li><NavLink to="/about">À propos</NavLink></li>
+            <li><NavLink to="/formation">Formation</NavLink></li>
+            <li><NavLink to="/admission">Admission</NavLink></li>
+            <li><NavLink to="/actualite">Actualité</NavLink></li>
+            <li><NavLink to="/alumni">Alumni</NavLink></li>
+            <li><NavLink to="/contact">Contact</NavLink></li>
           </ul>
         </nav>
       </div>
