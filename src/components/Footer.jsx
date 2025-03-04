@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-light py-4 mt-5">
+    <footer className="bg-light py-3 mt-5">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-8 text-center">
@@ -26,7 +26,7 @@ const Footer = () => {
               </a>
             </div>
             {/* Contact */}
-            <div className="mb-3">
+            <div className="mb-3 d-flex flex-row justify-content-center align-items-center gap-3">
               <p className="mb-1">
                 <i className="fas fa-phone-alt me-2"></i>(226) 66666666
               </p>
@@ -40,7 +40,7 @@ const Footer = () => {
             {/* Copyright */}
             <hr className="my-4" />
             <p className="text-muted mb-0">
-              &copy; {new Date().getFullYear()} C'est notre projet. Tous droits réservés.
+              &copy; {new Date().getFullYear()} Copyrights. Tous droits réservés.
             </p>
           </div>
         </div>

@@ -49,6 +49,7 @@
   border-radius: 4px;
   transition: all 0.3s ease;
   position: relative;
+  font-size: 0.9rem;
 }
 
 .navigation a:hover {
@@ -77,4 +78,51 @@
 .navigation a:hover::after,
 .navigation a.active::after {
   width: 100%;
-} 
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+@media (max-width: 1024px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .navigation {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+
+    transition: all 0.4s ease;
+  }
+
+  .navigation.open {
+    transform: translateX(0);
+  }
+
+  .navigation ul {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .navigation a {
+    display: block;
+    width: 100%;
+    padding: 1rem 0;
+  }
+}
