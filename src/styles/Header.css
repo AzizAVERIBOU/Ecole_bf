@@ -1,5 +1,4 @@
 .header {
-  background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0;
   position: fixed;
@@ -42,7 +41,6 @@
 }
 
 .navigation a {
-  color: #333;
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
@@ -50,6 +48,7 @@
   transition: all 0.3s ease;
   position: relative;
   font-size: 0.9rem;
+  color: #333;
 }
 
 .navigation a:hover {
@@ -58,7 +57,7 @@
 }
 
 .navigation a.active {
-  color: #007bff;
+  color: #007bff!important;
   background-color: rgba(0, 123, 255, 0.1);
   font-weight: 600;
 }
@@ -89,7 +88,27 @@
   color: #333;
 }
 
-@media (max-width: 1024px) {
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(0, 123, 255, 0.7);
+
+  border: none;
+  outline: none;
+
+  transition: all 0.4s ease;
+
+  position: fixed;
+  right: .3rem;
+  top: 4rem;
+}
+
+@media (max-width: 992px) {
   .menu-toggle {
     display: block;
   }
