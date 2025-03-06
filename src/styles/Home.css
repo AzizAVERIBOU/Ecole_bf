@@ -1,0 +1,305 @@
+/* Styles pour la page d'accueil */
+.home-page {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg, #f3f4f6, #ffffff);
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Animation de fond */
+.home-page::before,
+.home-page::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+  opacity: 0.1;
+  animation: float 15s infinite;
+  z-index: 0;
+}
+
+.home-page::before {
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.home-page::after {
+  bottom: -100px;
+  right: -100px;
+  animation-delay: -7.5s;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -50px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(240deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+/* Animation de particules */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #0d6efd;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: particleFloat 20s infinite linear;
+}
+
+.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; top: 60%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 35%; top: 40%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 50%; top: 66%; animation-delay: 6s; }
+.particle:nth-child(5) { left: 65%; top: 30%; animation-delay: 8s; }
+.particle:nth-child(6) { left: 80%; top: 70%; animation-delay: 10s; }
+.particle:nth-child(7) { left: 40%; top: 85%; animation-delay: 12s; }
+.particle:nth-child(8) { left: 25%; top: 15%; animation-delay: 14s; }
+.particle:nth-child(9) { left: 75%; top: 50%; animation-delay: 16s; }
+.particle:nth-child(10) { left: 30%; top: 80%; animation-delay: 18s; }
+
+@keyframes particleFloat {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(30px, 30px) rotate(180deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+/* Section Héro */
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+              url('/class.jpg') center/cover no-repeat;
+  padding: 150px 0;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-section h1 {
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeInUp 1s ease;
+}
+
+/* Section À propos */
+.about-section {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  padding: 40px 0;
+  margin-bottom: 40px;
+}
+
+.about-section:hover {
+  transform: translateY(-5px);
+}
+
+.about-section img {
+  transition: all 0.5s ease;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform-origin: center;
+}
+
+.about-section img:hover {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Section Formations */
+.formations-section {
+  background-color: rgba(248, 249, 250, 0.9);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  padding: 40px 0;
+  margin-bottom: 40px;
+  border-radius: 8px;
+}
+
+.formations-section:hover {
+  transform: translateY(-5px);
+}
+
+.formations-section .card {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.formations-section .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.formations-section .card:hover .card-img-top {
+  transform: scale(1.1);
+}
+
+.formations-section .card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Section Pourquoi nous choisir */
+.why-us-section {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  padding: 40px 0;
+  margin-bottom: 40px;
+}
+
+.why-us-section:hover {
+  transform: translateY(-5px);
+}
+
+.why-us-section i {
+  color: #0d6efd;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.why-us-section i:hover {
+  transform: scale(1.2) rotate(360deg);
+}
+
+.why-us-section img {
+  transition: all 0.5s ease;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.why-us-section img:hover {
+  transform: scale(1.1) rotate(5deg);
+  border-color: #0d6efd;
+}
+
+/* Section Actualités */
+.news-section {
+  background-color: rgba(248, 249, 250, 0.9);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  padding: 2rem 0;
+}
+
+.news-section:hover {
+  transform: translateY(-5px);
+}
+
+.news-section .card {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.news-section .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.news-section .card:hover .card-img-top {
+  transform: scale(1.1);
+}
+
+.news-section .card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 100px 0;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .why-us-section .col-md-3 {
+    margin-bottom: 2rem;
+  }
+
+  .formations-section .card-img-top,
+  .news-section .card-img-top {
+    height: 150px;
+  }
+} 
