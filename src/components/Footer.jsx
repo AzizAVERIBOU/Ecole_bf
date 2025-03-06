@@ -10,7 +10,7 @@ const Footer = () => {
             <div className="mb-4">
               <a href="/" 
                  target="_blank" 
-                 className={`btn btn-outline-secondary mx-2`}
+                 className={`btn btn-outline-dark mx-2`}
                  rel="noopener noreferrer">
                 <i className="fab fa-github"></i>
               </a>
