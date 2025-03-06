@@ -9,7 +9,7 @@ const Home = () => {
         <div className="hero-content">
           <h1 className="display-4 mb-4">Bienvenue aux CPGE-MENAPLN</h1>
           <p className="lead mb-4">
-            Une formation d'excellence en preparation au concours d'entree aux grandes ecoles
+            Une formation d'excellence en preparation aux concours d'entrée aux grandes ecoles
           </p>
            
         </div>
@@ -21,7 +21,7 @@ const Home = () => {
         <div className="row align-items-center">
           <div className="col-md-6">
             <p className="lead">
-              Les Classes Preparatoires d'entree dans les Grandes Ecoles du MENAPLN etait sensé etre une institution d'excellence qui forme les futurs etudiantes et etudiantes
+              Les Classes Préparatoires d'entrée dans les Grandes Ecoles du MENAPLN étaient sensé etre une institution d'excellence qui forme les futurs etudiantes et etudiantes
               qui aspirent a etre admis dans les grandes ecoles de leur choix.
             </p>
             <p className="lead">
@@ -33,7 +33,7 @@ const Home = () => {
           </div>
           <div className="col-md-6">
             <img 
-              src="/class.jpg" 
+              src="/public/images/class.jpg" 
               alt="Campus CPGE-MENAPLN" 
               className="img-fluid rounded shadow"
             />
@@ -41,11 +41,9 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-
-      
+     
     </div>
   );
 };
 
-export default Home; 
+export default Home;

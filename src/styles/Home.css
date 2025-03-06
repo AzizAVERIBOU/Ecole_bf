@@ -106,7 +106,7 @@
 /* Section Héro */
 .hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-              url('/class.jpg') center/cover no-repeat;
+              url('/public/images/class.jpg') center/cover no-repeat;
   padding: 150px 0;
   border-radius: 8px;
   position: relative;

@@ -1,0 +1,18 @@
+.formation-header-content {
+    h1 {
+        font-weight: 700;
+        animation: fadeInUp 1s ease;
+    }
+
+    .lead {
+        animation: fadeInUp 1s ease;
+    }
+}
+
+.myCard {
+    transition: all 0.3s ease;
+}
+
+.myCard:hover {
+    transform: scale(1.05);
+}
