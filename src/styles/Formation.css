@@ -8,11 +8,3 @@
         animation: fadeInUp 1s ease;
     }
 }
-
-.myCard {
-    transition: all 0.3s ease;
-}
-
-.myCard:hover {
-    transform: scale(1.05);
-}
