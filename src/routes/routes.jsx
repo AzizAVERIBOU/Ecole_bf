@@ -7,6 +7,7 @@ const Admission = lazy(() => import("./../pages/Admission"));
 const Actualite = lazy(() => import("./../pages/Actualite"));
 const Alumni = lazy(() => import("./../pages/Alumni"));
 const Contact = lazy(() => import("./../pages/Contact"));
+const Mediatheque = lazy(() => import("./../pages/Mediatheque"));
 const _404 = lazy(() => import("./../pages/_404"));
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
   { path: "/actualite", element: <Actualite /> },
   { path: "/alumni", element: <Alumni /> },
   { path: "/contact", element: <Contact /> },
+  { path: "/mediatheque", element: <Mediatheque /> },
   { path: "*", element: <_404 /> },
 ];
 
