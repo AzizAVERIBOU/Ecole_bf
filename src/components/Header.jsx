@@ -31,7 +31,6 @@ const Header = () => {
             <li><NavLink className="text-dark" to="/mediatheque" onClick={toggleMenu}>Médiathèque</NavLink></li>
             <li><NavLink className="text-dark" to="/alumni" onClick={toggleMenu}>Alumni</NavLink></li>
             <li><NavLink className="text-dark" to="/contact" onClick={toggleMenu}>Contact</NavLink></li>
-            <li><NavLink className="text-dark" to="/mediatheque" onClick={toggleMenu}>Médiathèque</NavLink></li>
           </ul>
         </nav>
       </div>
