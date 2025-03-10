@@ -17,7 +17,7 @@ const Formation = () => {
       <section className={`formation-header text-center mb-5 p-md-5 ${isLargeScreen ? 'card' : ''}`}>
         <div className="formation-header-content container">
           <h1 className="display-6 display-md-4 fw-bold mb-5">Nos Formations</h1>
-          <p className="lead card-text border rounded p-3 text-muted text-center mt-3">
+          <p className="lead border rounded p-3 text-muted text-center mt-3">
             Notre établissement propose des classes préparatoires d'excellence en <span className='fw-bold'>MPSI</span> et en <span className='fw-bold'>BCPST</span> conçues pour les étudiants ambitieux, ces formations offrent un enseignement rigoureux et exigeant, alliant théorie et pratique pour préparer efficacement aux concours des grandes écoles. Encadrés par une équipe pédagogique expérimentée, nos élèves développent des compétences solides et une méthodologie de travail efficace pour exceller dans leur parcours académique.
           </p>
         </div>
