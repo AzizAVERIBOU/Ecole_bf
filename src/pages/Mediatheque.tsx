@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { FaGraduationCap, FaBook, FaFileAlt, FaTrophy, FaUpload } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 import '../styles/Mediatheque.css';
+
+// Initialiser EmailJS
+emailjs.init("NhycmYAxmFxquhtsk"); // Public Key
 
 // Types pour les sections et les items
 interface Item {
@@ -34,6 +38,17 @@ const Mediatheque: React.FC = () => {
     fichier: null
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    show: boolean;
+    isError: boolean;
+    message: string;
+  }>({
+    show: false,
+    isError: false,
+    message: ''
+  });
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -51,19 +66,54 @@ const Mediatheque: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Ici, vous pouvez ajouter la logique pour envoyer le fichier
-    console.log('Document soumis:', formData);
-    // Réinitialiser le formulaire
-    setFormData({
-      nom: '',
-      email: '',
-      typeDocument: 'devoir',
-      matiere: 'mathematiques',
-      description: '',
-      fichier: null
-    });
+    setIsSubmitting(true);
+    
+    try {
+      // Envoyer l'email
+      await emailjs.send(
+        'service_y6h9gpv',
+        'template_36x2ue1',
+        {
+          from_name: formData.nom,
+          from_email: formData.email,
+          type_document: formData.typeDocument,
+          matiere: formData.matiere,
+          description: formData.description,
+          file_name: formData.fichier ? formData.fichier.name : 'Aucun fichier'
+        }
+      );
+
+      // Afficher le message de succès
+      setSubmitStatus({
+        show: true,
+        isError: false,
+        message: 'Document soumis avec succès ! Un email a été envoyé.'
+      });
+
+      // Réinitialiser le formulaire
+      setFormData({
+        nom: '',
+        email: '',
+        typeDocument: 'devoir',
+        matiere: 'mathematiques',
+        description: '',
+        fichier: null
+      });
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi:', error);
+      setSubmitStatus({
+        show: true,
+        isError: true,
+        message: 'Erreur lors de l\'envoi. Veuillez réessayer.'
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setSubmitStatus(prev => ({ ...prev, show: false }));
+      }, 5000);
+    }
   };
 
   const sections: Section[] = [
@@ -147,6 +197,11 @@ const Mediatheque: React.FC = () => {
         </h2>
         <div className="row justify-content-center">
           <div className="col-md-8">
+            {submitStatus.show && (
+              <div className={`alert ${submitStatus.isError ? 'alert-danger' : 'alert-success'} mb-4`}>
+                {submitStatus.message}
+              </div>
+            )}
             <div className="card">
               <div className="card-body">
                 <form onSubmit={handleSubmit}>
@@ -230,9 +285,22 @@ const Mediatheque: React.FC = () => {
                     />
                   </div>
                   <div className="text-center">
-                    <button type="submit" className="btn btn-primary">
-                      <FaUpload className="me-2" />
-                      Soumettre le document
+                    <button 
+                      type="submit" 
+                      className="btn btn-primary"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                          Envoi en cours...
+                        </>
+                      ) : (
+                        <>
+                          <FaUpload className="me-2" />
+                          Soumettre le document
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
