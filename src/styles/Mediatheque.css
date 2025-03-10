@@ -23,6 +23,8 @@
   margin: 0 auto;
   width: 100%;
   padding: 0 15px;
+
+  animation: fadeInUp 1s ease;
 }
 
 .mediatheque-header h1 {
