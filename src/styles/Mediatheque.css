@@ -120,6 +120,49 @@
   margin-bottom: 1rem;
 }
 
+/* Section Soumettre un Document */
+.submit-section {
+  background-color: rgba(248, 249, 250, 0.9);
+  transition: transform 0.3s ease;
+}
+
+.submit-section .card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.submit-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.submit-section .form-control,
+.submit-section .form-select {
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.submit-section .form-control:focus,
+.submit-section .form-select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.submit-section .btn-primary {
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submit-section .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .mediatheque-header {
@@ -136,5 +179,14 @@
 
   .card {
     margin-bottom: 1.5rem;
+  }
+
+  .submit-section .card {
+    margin: 1rem;
+  }
+  
+  .submit-section .btn-primary {
+    width: 100%;
+    margin-top: 1rem;
   }
 } 
