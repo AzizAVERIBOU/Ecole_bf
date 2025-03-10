@@ -50,7 +50,7 @@ Le site sera accessible à l'adresse : http://localhost:3000
 
 ## Technologies utilisées
 
-- React.js
+- React - Typescript
 - React Router
 - Bootstrap
 - React Icons
