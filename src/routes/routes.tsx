@@ -1,4 +1,6 @@
 import { lazy, ReactNode } from "react";
+import ROUTES from "./path";
+import TITLES from "./title";
 
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
@@ -18,15 +20,51 @@ interface RouteType {
 }
 
 const routes: RouteType[] = [
-  { path: "/", element: <Home />, title: "Accueil" },
-  { path: "/about", element: <About />, title: "À Propos" },
-  { path: "/formation", element: <Formation />, title: "Formation" },
-  { path: "/admission", element: <Admission />, title: "Admission" },
-  { path: "/actualite", element: <Actualite />, title: "Actualité" },
-  { path: "/alumni", element: <Alumni />, title: "Alumni" },
-  { path: "/contact", element: <Contact />, title: "Contact" },
-  { path: "/mediatheque", element: <Mediatheque />, title: "Médiathèque" },
-  { path: "*", element: <NotFound />, title: "404 | NOT FOUND" },
+  { 
+    path: ROUTES.HOME, 
+    element: <Home />, 
+    title: TITLES.HOME 
+  },
+  { 
+    path: ROUTES.ABOUT, 
+    element: <About />, 
+    title: TITLES.ABOUT 
+  },
+  { 
+    path: ROUTES.FORMATION, 
+    element: <Formation />, 
+    title: TITLES.FORMATION 
+  },
+  { 
+    path: ROUTES.ADMISSION, 
+    element: <Admission />, 
+    title: TITLES.ADMISSION 
+  },  
+  { 
+    path: ROUTES.ACTUALITE, 
+    element: <Actualite />, 
+    title: TITLES.ACTUALITE 
+  },
+  { 
+    path: ROUTES.ALUMNI, 
+    element: <Alumni />, 
+    title: TITLES.ALUMNI 
+  },
+  { 
+    path: ROUTES.CONTACT, 
+    element: <Contact />, 
+    title: TITLES.CONTACT 
+  },
+  { 
+    path: ROUTES.MEDIATHEQUE, 
+    element: <Mediatheque />, 
+    title: TITLES.MEDIATHEQUE 
+  },
+  { 
+    path: ROUTES.NOT_FOUND, 
+    element: <NotFound />, 
+    title: TITLES.NOT_FOUND 
+  },
 ];
 
 export default routes;
