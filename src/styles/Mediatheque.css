@@ -189,4 +189,50 @@
     width: 100%;
     margin-top: 1rem;
   }
+}
+
+/* Section Documents Soumis */
+.submitted-docs-section {
+  margin-top: 2rem;
+}
+
+.submitted-docs-section .table {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submitted-docs-section th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.submitted-docs-section td {
+  vertical-align: middle;
+}
+
+.submitted-docs-section tr:hover {
+  background-color: #f8f9fa;
+}
+
+.submitted-docs-section .btn-danger {
+  padding: 0.25rem 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.submitted-docs-section .btn-danger:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .table-responsive {
+    border: 0;
+  }
+  
+  .submitted-docs-section td {
+    font-size: 0.9rem;
+  }
 } 
