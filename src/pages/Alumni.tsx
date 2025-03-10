@@ -1,12 +1,20 @@
 import React from 'react';
 import '../styles/Alumni.css';
 
-const Alumni = () => {
-  const alumniList = [
+interface AlumniMember {
+  name: string;
+  year: string;
+  profession: string;
+  linkedin: string;
+  image: string;
+}
+
+const Alumni: React.FC = () => {
+  const alumniList: AlumniMember[] = [
     { 
       name: 'Arnold CONVOLBO', 
       year: '2021', 
-      profession: 'Software Secutity', 
+      profession: 'Software Security', 
       linkedin: '#', 
       image: "/public/images/arnold.jpg" 
     },
@@ -27,11 +35,7 @@ const Alumni = () => {
   ];
 
   return (
-    
     <div className="container mt-5">
-
-      
-      
       <div className="fade-in text-center mb-5">
         <h1 className="display-4 text-primary">Nos Anciens Étudiants</h1>
         <p className="lead">Découvrez où nos anciens élèves sont aujourd'hui et leur impact dans leurs domaines professionnels.</p>
@@ -57,8 +61,7 @@ const Alumni = () => {
         ))}
       </div>
 
-      
-        <div className="text-center mt-5">
+      <div className="text-center mt-5">
         <h2 className="mb-4">Témoignages</h2>
         <div className="testimonial-container">
           <div className="testimonial-card fade-in">
@@ -78,9 +81,6 @@ const Alumni = () => {
         </div>
         <button className="btn btn-outline-primary mt-4">Voir plus de témoignages</button>
       </div>
-      
-
-
     </div>
   );
 };

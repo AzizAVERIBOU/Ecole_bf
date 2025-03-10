@@ -3,10 +3,10 @@ import { Link, NavLink } from 'react-router-dom';
 import '../styles/Header.css';
 import { FiMenu, FiX } from 'react-icons/fi';
 
-const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+const Header: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  const toggleMenu = () => {
+  const toggleMenu = (): void => {
     setMenuOpen(!menuOpen);
   };
 

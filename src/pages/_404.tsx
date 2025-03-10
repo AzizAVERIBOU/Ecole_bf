@@ -1,6 +1,6 @@
 import React from 'react';
 
-const _404 = () => {
+const _404: React.FC = () => {
   return (
     <div className="d-flex p-6 min-vw-100 justify-content-center align-items-center text-center">
       <div>

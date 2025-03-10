@@ -1,11 +1,11 @@
 import React from 'react';
 
-const About = () => {
+const Contact: React.FC = () => {
   return (
     <div className="container text-center">
-      <h1 className="mt-4">À propos</h1>
+      <h1 className="mt-4">Contact</h1>
     </div>
   );
 };
 
-export default About; 
+export default Contact; 
