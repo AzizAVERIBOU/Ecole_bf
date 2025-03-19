@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Suspense, ReactNode } from "react";
+import React, { Suspense, ReactNode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import Layout from "./components/Layout";
 import routes from "./routes/routes";
@@ -11,7 +11,7 @@ interface RouteType {
   element: ReactNode;
 }
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <ErrorBoundary fallback={<div className="text-center fw-bold">Une erreur s'est produite.</div>}>
