@@ -14,7 +14,7 @@ interface RouteType {
 const App: React.FC = () => {
   return (
     <Router>
-      <ErrorBoundary fallback={<div className="text-center fw-bold">Une erreur s'est produite.</div>}>
+      <ErrorBoundary fallback={<div className="card bg-danger text-white p-3 text-center fw-bold">Une erreur s'est produite.</div>}>
         <Layout>
           <Suspense fallback={<div className="text-center fw-bold">Chargement...</div>}>
             <TitleUpdater />
