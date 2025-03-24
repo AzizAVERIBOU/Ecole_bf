@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo, memo } from 'react';
 import { FaCalendarAlt, FaSearch, FaTags, FaChevronRight } from 'react-icons/fa';
 import '../styles/Actualite.css';
 
@@ -12,11 +12,72 @@ interface NewsItem {
   featured?: boolean;
 }
 
+// Composants mémorisés pour éviter les re-rendus inutiles
+const NewsCard = memo(({ item }: { item: NewsItem }) => (
+  <div className="col-md-6 mb-4">
+    <div className="card h-100 border-0 shadow-sm">
+      <div className="card-body">
+        <h3 className="card-title h5">{item.title}</h3>
+        <div className="d-flex mb-3">
+          <span className="badge bg-primary me-2">{item.category}</span>
+          <small className="text-muted">
+            <FaCalendarAlt className="me-1" />
+            {item.date}
+          </small>
+        </div>
+        <p className="card-text">{item.excerpt}</p>
+        <a href="#" className="btn btn-outline-primary btn-sm">
+          Lire la suite <FaChevronRight className="ms-1" />
+        </a>
+      </div>
+    </div>
+  </div>
+));
+
+const FeaturedNewsCard = memo(({ item }: { item: NewsItem }) => (
+  <div className="card border-0 shadow-sm mb-4">
+    <div className="row g-0">
+      <div className="col-md-4">
+        <div className="featured-news-img" style={{ backgroundImage: `url(${item.image})` }}></div>
+      </div>
+      <div className="col-md-8">
+        <div className="card-body">
+          <div className="d-flex align-items-center mb-2">
+            <span className="badge bg-danger me-2">À la une</span>
+            <span className="badge bg-primary me-2">{item.category}</span>
+          </div>
+          <h3 className="card-title">{item.title}</h3>
+          <p className="card-text">{item.excerpt}</p>
+          <div className="d-flex justify-content-between align-items-center">
+            <small className="text-muted">
+              <FaCalendarAlt className="me-1" />
+              {item.date}
+            </small>
+            <a href="#" className="btn btn-primary btn-sm">
+              Lire l'article complet
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+));
+
 const Actualite: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  const newsItems: NewsItem[] = [
+  // Utilisation de useCallback pour les gestionnaires d'événements
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }, []);
+
+  const handleCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
+  }, []);
+
+  // Utilisation de useMemo pour éviter de recréer ces tableaux à chaque rendu
+  const newsItems = useMemo<NewsItem[]>(() => [
     {
       id: 1,
       title: "Ouverture des inscriptions pour l'année académique 2025-2026",
@@ -67,26 +128,32 @@ const Actualite: React.FC = () => {
       excerpt: "Un nouveau club de robotique a été créé pour permettre aux étudiants de développer leurs compétences en ingénierie et en programmation.",
       image: "/images/robotics.jpg"
     }
-  ];
+  ], []);
 
-  const categories = ['all', ...new Set(newsItems.map(item => item.category))];
+  const categories = useMemo(() => {
+    return ['all', ...new Set(newsItems.map(item => item.category))];
+  }, [newsItems]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
+  // Filtrer les éléments d'actualité en fonction des critères de recherche
+  const filteredNewsItems = useMemo(() => {
+    return newsItems.filter(item => {
+      const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          item.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [newsItems, searchTerm, selectedCategory]);
+  
+  // Séparer les actualités en vedette et les actualités normales
+  const featuredNews = useMemo(() => {
+    return filteredNewsItems.filter(item => item.featured);
+  }, [filteredNewsItems]);
+  
+  const regularNews = useMemo(() => {
+    return filteredNewsItems.filter(item => !item.featured);
+  }, [filteredNewsItems]);
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const filteredNews = newsItems.filter(item => {
-    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         item.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const featuredNews = newsItems.filter(item => item.featured);
+  // Nous utilisons maintenant les variables optimisées avec useMemo
 
   return (
     <div className="container py-5">
@@ -106,30 +173,7 @@ const Actualite: React.FC = () => {
           <h2 className="text-center mb-4">À la une</h2>
           <div className="row">
             {featuredNews.map(item => (
-              <div key={item.id} className="col-md-6 mb-4">
-                <div className="card featured-card h-100 border-0 shadow">
-                  <div className="row g-0">
-                    <div className="col-md-6">
-                      <img src={item.image} className="img-fluid rounded-start h-100" alt={item.title} style={{ objectFit: 'cover' }} />
-                    </div>
-                    <div className="col-md-6">
-                      <div className="card-body d-flex flex-column h-100">
-                        <div className="mb-auto">
-                          <span className="badge bg-primary mb-2">{item.category}</span>
-                          <h3 className="card-title">{item.title}</h3>
-                          <p className="card-text text-muted small">
-                            <FaCalendarAlt className="me-1" /> {item.date}
-                          </p>
-                          <p className="card-text">{item.excerpt}</p>
-                        </div>
-                        <a href="#" className="btn btn-outline-primary mt-3">
-                          Lire la suite <FaChevronRight size={12} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <FeaturedNewsCard key={item.id} item={item} />
             ))}
           </div>
         </section>
@@ -179,24 +223,9 @@ const Actualite: React.FC = () => {
       <section className="news-list mb-5">
         <h2 className="text-center mb-4">Toutes les actualités</h2>
         <div className="row">
-          {filteredNews.length > 0 ? (
-            filteredNews.map(item => (
-              <div key={item.id} className="col-md-4 mb-4">
-                <div className="card h-100 border-0 shadow-sm">
-                  <img src={item.image} className="card-img-top" alt={item.title} style={{ height: '200px', objectFit: 'cover' }} />
-                  <div className="card-body d-flex flex-column">
-                    <span className="badge bg-primary mb-2">{item.category}</span>
-                    <h3 className="card-title h5">{item.title}</h3>
-                    <p className="card-text text-muted small">
-                      <FaCalendarAlt className="me-1" /> {item.date}
-                    </p>
-                    <p className="card-text flex-grow-1">{item.excerpt}</p>
-                    <a href="#" className="btn btn-outline-primary mt-3">
-                      Lire la suite <FaChevronRight size={12} />
-                    </a>
-                  </div>
-                </div>
-              </div>
+          {regularNews.length > 0 ? (
+            regularNews.map(item => (
+              <NewsCard key={item.id} item={item} />
             ))
           ) : (
             <div className="col-12 text-center">

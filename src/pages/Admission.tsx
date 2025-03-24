@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo, memo } from 'react';
 import { FaGraduationCap, FaCalendarAlt, FaFileAlt, FaCheckCircle, FaQuestionCircle } from 'react-icons/fa';
 import '../styles/Admission.css';
 
@@ -14,10 +14,56 @@ interface FAQ {
   answer: string;
 }
 
+// Composants mémorisés pour éviter les re-rendus inutiles
+const TimelineItem = memo(({ step }: { step: AdmissionStep }) => (
+  <div className="timeline-item">
+    <div className="timeline-icon">
+      {step.icon}
+    </div>
+    <div className="timeline-content">
+      <h3>{step.title}</h3>
+      <p>{step.description}</p>
+    </div>
+  </div>
+));
+
+const FaqItem = memo(({ faq, index }: { faq: FAQ; index: number }) => (
+  <div className="accordion-item" key={index}>
+    <h2 className="accordion-header" id={`faqHeading${index}`}>
+      <button 
+        className="accordion-button collapsed" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target={`#faqCollapse${index}`} 
+        aria-expanded="false" 
+        aria-controls={`faqCollapse${index}`}
+      >
+        {faq.question}
+      </button>
+    </h2>
+    <div 
+      id={`faqCollapse${index}`} 
+      className="accordion-collapse collapse" 
+      aria-labelledby={`faqHeading${index}`} 
+      data-bs-parent="#faqAccordion"
+    >
+      <div className="accordion-body">
+        {faq.answer}
+      </div>
+    </div>
+  </div>
+));
+
 const Admission: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('mpsi');
+  
+  // Utilisation de useCallback pour les gestionnaires d'événements
+  const handleTabChange = useCallback((tab: string) => {
+    setActiveTab(tab);
+  }, []);
 
-  const admissionSteps: AdmissionStep[] = [
+  // Utilisation de useMemo pour éviter de recréer ces tableaux à chaque rendu
+  const admissionSteps = useMemo<AdmissionStep[]>(() => [
     {
       id: 1,
       title: "Vérification des conditions d'éligibilité",
@@ -42,9 +88,9 @@ const Admission: React.FC = () => {
       description: "Les dossiers sélectionnés seront convoqués pour un entretien avec le jury d'admission. Cet entretien vise à évaluer votre motivation et votre aptitude à suivre la formation.",
       icon: <FaGraduationCap className="step-icon" />
     }
-  ];
+  ], []);
 
-  const faqs: FAQ[] = [
+  const faqs = useMemo<FAQ[]>(() => [
     {
       question: "Quels sont les frais de scolarité pour les CPGE-MENAPLN ?",
       answer: "Les frais de scolarité s'élèvent à 500 000 FCFA par an. Des bourses d'excellence sont disponibles pour les étudiants méritants et ceux issus de milieux défavorisés."
@@ -69,7 +115,7 @@ const Admission: React.FC = () => {
       question: "Comment se déroule la sélection des candidats ?",
       answer: "La sélection se fait en deux étapes : une présélection sur dossier basée sur les résultats scolaires et les lettres de recommandation, suivie d'un entretien pour les candidats présélectionnés."
     }
-  ];
+  ], []);
 
   return (
     <div className="container py-5">
@@ -92,7 +138,7 @@ const Admission: React.FC = () => {
               <li className="nav-item" role="presentation">
                 <button 
                   className={`nav-link ${activeTab === 'mpsi' ? 'active' : ''}`} 
-                  onClick={() => setActiveTab('mpsi')}
+                  onClick={() => handleTabChange('mpsi')}
                   type="button"
                 >
                   MPSI
@@ -101,7 +147,7 @@ const Admission: React.FC = () => {
               <li className="nav-item" role="presentation">
                 <button 
                   className={`nav-link ${activeTab === 'bcpst' ? 'active' : ''}`} 
-                  onClick={() => setActiveTab('bcpst')}
+                  onClick={() => handleTabChange('bcpst')}
                   type="button"
                 >
                   BCPST
@@ -171,15 +217,7 @@ const Admission: React.FC = () => {
         <h2 className="text-center mb-4">Processus d'Admission</h2>
         <div className="timeline">
           {admissionSteps.map((step) => (
-            <div key={step.id} className="timeline-item">
-              <div className="timeline-icon">
-                {step.icon}
-              </div>
-              <div className="timeline-content">
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-            </div>
+            <TimelineItem key={step.id} step={step} />
           ))}
         </div>
       </section>
@@ -231,30 +269,7 @@ const Admission: React.FC = () => {
         </h2>
         <div className="accordion" id="faqAccordion">
           {faqs.map((faq, index) => (
-            <div key={index} className="accordion-item border-0 mb-3 shadow-sm">
-              <h2 className="accordion-header" id={`heading${index}`}>
-                <button 
-                  className="accordion-button collapsed" 
-                  type="button" 
-                  data-bs-toggle="collapse" 
-                  data-bs-target={`#collapse${index}`} 
-                  aria-expanded="false" 
-                  aria-controls={`collapse${index}`}
-                >
-                  {faq.question}
-                </button>
-              </h2>
-              <div 
-                id={`collapse${index}`} 
-                className="accordion-collapse collapse" 
-                aria-labelledby={`heading${index}`} 
-                data-bs-parent="#faqAccordion"
-              >
-                <div className="accordion-body">
-                  {faq.answer}
-                </div>
-              </div>
-            </div>
+            <FaqItem key={index} faq={faq} index={index} />
           ))}
         </div>
       </section>

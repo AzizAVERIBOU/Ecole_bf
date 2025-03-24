@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import '../styles/Contact.css';
 
@@ -9,30 +9,39 @@ interface ContactFormData {
   message: string;
 }
 
+interface SubmitStatusType {
+  show: boolean;
+  isError: boolean;
+  message: string;
+}
+
+const INITIAL_FORM_STATE: ContactFormData = {
+  nom: '',
+  email: '',
+  sujet: '',
+  message: ''
+};
+
+const INITIAL_STATUS_STATE: SubmitStatusType = { 
+  show: false, 
+  isError: false, 
+  message: '' 
+};
+
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState<ContactFormData>({
-    nom: '',
-    email: '',
-    sujet: '',
-    message: ''
-  });
-
+  const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_STATE);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    show: boolean;
-    isError: boolean;
-    message: string;
-  }>({ show: false, isError: false, message: '' });
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatusType>(INITIAL_STATUS_STATE);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
       [name]: value
     }));
-  };
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -46,19 +55,14 @@ const Contact: React.FC = () => {
       });
       
       // Réinitialiser le formulaire
-      setFormData({
-        nom: '',
-        email: '',
-        sujet: '',
-        message: ''
-      });
+      setFormData(INITIAL_FORM_STATE);
       
       // Masquer le message après 5 secondes
       setTimeout(() => {
         setSubmitStatus(prev => ({ ...prev, show: false }));
       }, 5000);
     }, 1500);
-  };
+  }, []);
 
   return (
     <div className="container py-5">
