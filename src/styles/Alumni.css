@@ -1,81 +1,138 @@
+:root {
+  --primary-color: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --light-bg: #f8f9fa;
+  --dark-text: #333;
+  --medium-text: #555;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.2);
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+}
 
-/* Alumni.css */
+/* Styles généraux pour la page */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-/* Style général pour la section témoignages */
+/* Styles pour les cartes des anciens étudiants */
+.card {
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-img-top {
+  transition: transform var(--transition-speed) ease;
+  object-fit: cover;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Style pour la section témoignages */
 .testimonial-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+  text-align: left;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.testimonial-quote {
+  font-style: italic;
+  color: var(--medium-text);
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid var(--primary-color);
+}
+
+.testimonial-name {
+  font-weight: bold;
+  color: var(--dark-text);
+}
+
+/* Style pour les boutons */
+.btn-outline-primary {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Animation pour faire apparaître les éléments */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation décalée pour les éléments multiples */
+.testimonial-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 768px) {
+  .testimonial-container {
+    flex-direction: column;
+    align-items: center;
   }
   
   .testimonial-card {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    width: 100%;
-    text-align: left;
-    transition: transform 0.3s ease;
+    max-width: 100%;
   }
-  
-  .testimonial-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .testimonial-quote {
-    font-style: italic;
-    color: #555;
-    font-size: 1.2rem;
-  }
-  
-  .testimonial-author {
-    display: flex;
-    align-items: center;
-    margin-top: 15px;
-  }
-  
-  .testimonial-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-  }
-  
-  .testimonial-name {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Style pour le bouton */
-  .btn-outline-primary {
-    border-color: #007bff;
-    color: #007bff;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  /* Animation pour faire apparaître les témoignages */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeIn 1s ease forwards;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
+}
