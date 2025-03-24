@@ -1,138 +1,452 @@
-:root {
-  --primary-color: #0d6efd;
-  --primary-hover: #0b5ed7;
-  --light-bg: #f8f9fa;
-  --dark-text: #333;
-  --medium-text: #555;
-  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --card-shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.2);
-  --border-radius: 8px;
-  --transition-speed: 0.3s;
+/* Styles pour la page Alumni */
+
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/alumni-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0;
+  margin-bottom: 3rem;
 }
 
-/* Styles généraux pour la page */
-.container {
-  max-width: 1200px;
+.hero-content {
+  max-width: 800px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
-/* Styles pour les cartes des anciens étudiants */
-.card {
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+.stats-section {
+  padding: 3rem 0;
+  background-color: #f8f9fa;
+}
+
+.stats-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stats-title {
+  color: #0d6efd;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.stat-item {
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.countries-distribution {
+  padding: 1rem;
+}
+
+.countries-title {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.countries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.country-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.country-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.country-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.country-count {
+  color: #666;
+  font-weight: 500;
+}
+
+.progress {
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
   overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #0d6efd;
+  transition: width 0.6s ease;
+}
+
+.tooltip-icon {
+  margin-left: 0.5rem;
+  color: #0d6efd;
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tooltip-icon:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip-icon:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #333;
+  margin-bottom: -5px;
+}
+
+.alumni-section {
+  padding: 2rem 0;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--card-shadow-hover);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
-.card-img-top {
-  transition: transform var(--transition-speed) ease;
-  object-fit: cover;
+.profile-icon {
+  font-size: 5rem;
+  color: #0d6efd;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
 }
 
-.card:hover .card-img-top {
-  transform: scale(1.05);
+.card:hover .profile-icon {
+  transform: scale(1.1);
+  color: #0b5ed7;
 }
 
-/* Style pour la section témoignages */
-.testimonial-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 2rem;
+.alumni-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
-.testimonial-card {
-  background-color: var(--light-bg);
-  border-radius: var(--border-radius);
-  box-shadow: var(--card-shadow);
-  padding: 20px;
-  max-width: 400px;
-  width: 100%;
-  text-align: left;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-}
-
-.testimonial-card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--card-shadow-hover);
-}
-
-.testimonial-quote {
-  font-style: italic;
-  color: var(--medium-text);
-  font-size: 1.2rem;
-  line-height: 1.6;
+.alumni-role {
+  color: #0d6efd;
+  font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
-.testimonial-author {
+.alumni-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.alumni-social {
   display: flex;
-  align-items: center;
-  margin-top: 15px;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
-.testimonial-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-  border: 2px solid var(--primary-color);
+.social-link {
+  color: #0d6efd;
+  font-size: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.testimonial-name {
-  font-weight: bold;
-  color: var(--dark-text);
-}
-
-/* Style pour les boutons */
-.btn-outline-primary {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  transition: all var(--transition-speed) ease;
-}
-
-.btn-outline-primary:hover {
-  background-color: var(--primary-color);
-  color: white;
+.social-link:hover {
+  color: #0b5ed7;
   transform: translateY(-2px);
 }
 
-/* Animation pour faire apparaître les éléments */
-.fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Animation décalée pour les éléments multiples */
-.testimonial-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-/* Media queries pour la responsivité */
 @media (max-width: 768px) {
-  .testimonial-container {
-    flex-direction: column;
-    align-items: center;
+  .hero-section {
+    padding: 60px 0;
   }
   
-  .testimonial-card {
-    max-width: 100%;
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .stats-card {
+    padding: 1.5rem;
+  }
+
+  .stats-title {
+    font-size: 1.5rem;
+  }
+
+  .stat-item {
+    padding: 1.5rem;
+  }
+
+  .stat-icon {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .countries-title {
+    font-size: 1.2rem;
+  }
+
+  .tooltip-icon:hover::after,
+  .tooltip-icon:hover::before {
+    display: none;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .profile-icon {
+    font-size: 4rem;
+  }
+
+  .alumni-name {
+    font-size: 1.3rem;
+  }
+
+  .alumni-role {
+    font-size: 1rem;
+  }
+}
+
+/* Section Invitation */
+.invitation-section {
+  background-color: #f8f9fa;
+  padding: 3rem 0;
+}
+
+.invitation-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.invitation-title {
+  color: #0d6efd;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.invitation-text {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Section Formulaire */
+.registration-section {
+  background-color: #f8f9fa;
+  padding: 3rem 0;
+}
+
+.registration-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.registration-form .form-control {
+  border-radius: 8px;
+  padding: 0.8rem;
+  border: 1px solid #dee2e6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.registration-form .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.registration-form textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.registration-form .btn-primary {
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.registration-form .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+@media (max-width: 768px) {
+  .invitation-card,
+  .registration-card {
+    padding: 1.5rem;
+  }
+
+  .invitation-title {
+    font-size: 1.5rem;
+  }
+
+  .invitation-text {
+    font-size: 1rem;
+  }
+
+  .registration-form .btn-primary {
+    width: 100%;
+    padding: 0.8rem;
+  }
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.country-flag-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.country-flag-item:hover {
+  transform: translateY(-5px);
+}
+
+.country-flag {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.country-name {
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .countries-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .country-flag {
+    font-size: 2.5rem;
+  }
+}
+
+.total-alumni {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.total-alumni:hover {
+  transform: translateY(-5px);
+}
+
+.total-alumni .stat-icon {
+  font-size: 3rem;
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+.total-alumni .stat-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.total-alumni .stat-label {
+  color: #666;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .total-alumni {
+    padding: 1.5rem;
+  }
+
+  .total-alumni .stat-icon {
+    font-size: 2.5rem;
+  }
+
+  .total-alumni .stat-number {
+    font-size: 2.5rem;
   }
 }

@@ -1,6 +1,21 @@
-import React, { useState, useCallback, useMemo, memo } from 'react';
-import { FaGraduationCap, FaCalendarAlt, FaFileAlt, FaCheckCircle, FaQuestionCircle } from 'react-icons/fa';
+import React, { useState, useCallback, useMemo, memo, useEffect } from 'react';
+import { 
+  FaGraduationCap, 
+  FaCalendarAlt, 
+  FaFileAlt, 
+  FaCheckCircle, 
+  FaQuestionCircle,
+  FaAtom,
+  FaCalculator,
+  FaFlask,
+  FaMicroscope,
+  FaDna,
+  FaHeartbeat,
+  FaLeaf,
+  FaBug
+} from 'react-icons/fa';
 import '../styles/Admission.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 interface AdmissionStep {
   id: number;
@@ -14,48 +29,90 @@ interface FAQ {
   answer: string;
 }
 
+interface FormData {
+  nom: string;
+  email: string;
+  typeDocument: string;
+  matiere: string;
+  description: string;
+  fichier: File | null;
+}
+
 // Composants mémorisés pour éviter les re-rendus inutiles
 const TimelineItem = memo(({ step }: { step: AdmissionStep }) => (
   <div className="timeline-item">
     <div className="timeline-icon">
       {step.icon}
     </div>
-    <div className="timeline-content">
+    <div className="timeline-content" data-tooltip={`Étape ${step.id}`}>
       <h3>{step.title}</h3>
       <p>{step.description}</p>
     </div>
   </div>
 ));
 
-const FaqItem = memo(({ faq, index }: { faq: FAQ; index: number }) => (
-  <div className="accordion-item" key={index}>
-    <h2 className="accordion-header" id={`faqHeading${index}`}>
-      <button 
-        className="accordion-button collapsed" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target={`#faqCollapse${index}`} 
-        aria-expanded="false" 
-        aria-controls={`faqCollapse${index}`}
+const FaqItem = memo(({ faq, index }: { faq: FAQ; index: number }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div className="accordion-item">
+      <h2 className="accordion-header">
+        <button 
+          className={`accordion-button ${isOpen ? '' : 'collapsed'}`}
+          type="button"
+          onClick={toggleAccordion}
+        >
+          {faq.question}
+        </button>
+      </h2>
+      <div 
+        className={`accordion-collapse ${isOpen ? 'show' : 'collapse'}`}
       >
-        {faq.question}
-      </button>
-    </h2>
-    <div 
-      id={`faqCollapse${index}`} 
-      className="accordion-collapse collapse" 
-      aria-labelledby={`faqHeading${index}`} 
-      data-bs-parent="#faqAccordion"
-    >
-      <div className="accordion-body">
-        {faq.answer}
+        <div className="accordion-body">
+          {faq.answer.split('\n').map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-));
+  );
+});
+
+const filieres = [
+  {
+    nom: "MPSC",
+    description: "Mathématiques, Physique et Sciences de l'Ingénieur",
+    icon: <FaCalculator className="filiere-icon" />,
+    subIcons: [
+      <FaAtom key="physics" className="sub-icon" />,
+      <FaCalculator key="maths" className="sub-icon" />
+    ]
+  },
+  {
+    nom: "BCPST",
+    description: "Biologie, Chimie, Physique et Sciences de la Terre",
+    icon: <FaMicroscope className="filiere-icon" />,
+    subIcons: [
+      <FaDna key="biology" className="sub-icon" />,
+      <FaHeartbeat key="medicine" className="sub-icon" />
+    ]
+  }
+];
 
 const Admission: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('mpsi');
+  const [formData, setFormData] = useState<FormData>({
+    nom: '',
+    email: '',
+    typeDocument: 'devoir',
+    matiere: 'mathematiques',
+    description: '',
+    fichier: null
+  });
   
   // Utilisation de useCallback pour les gestionnaires d'événements
   const handleTabChange = useCallback((tab: string) => {
@@ -92,30 +149,38 @@ const Admission: React.FC = () => {
 
   const faqs = useMemo<FAQ[]>(() => [
     {
-      question: "Quels sont les frais de scolarité pour les CPGE-MENAPLN ?",
-      answer: "Les frais de scolarité s'élèvent à 500 000 FCFA par an. Des bourses d'excellence sont disponibles pour les étudiants méritants et ceux issus de milieux défavorisés."
+      question: "Quelles sont les conditions d'admission en CPGE ?",
+      answer: "Pour être admis en CPGE, vous devez :\n- Avoir obtenu votre baccalauréat avec une mention au moins Assez Bien\n- Avoir une moyenne minimale de 14/20 en mathématiques et physique\n- Être âgé de moins de 23 ans\n- Etre preselectionné par le jury "
     },
     {
-      question: "Est-ce que les étudiants internationaux peuvent postuler ?",
-      answer: "Oui, les candidatures internationales sont acceptées. Les étudiants internationaux doivent fournir les mêmes documents, ainsi qu'une preuve de niveau en français pour les non-francophones."
+      question: "Quel est le processus de sélection ?",
+      answer: "Le processus de sélection comprend :\n1. L'examen du dossier scolaire et des lettres de recommandation\n2. Un entretien avec un jury\n3. Une évaluation de la motivation et du projet de vie"
     },
     {
-      question: "Y a-t-il un internat disponible pour les étudiants ?",
-      answer: "Oui, un internat est disponible avec un nombre limité de places. La priorité est donnée aux étudiants venant de l'extérieur de la capitale. Une demande spécifique doit être faite lors de l'inscription."
+      question: "Quels sont les documents requis pour l'inscription ?",
+      answer: "Les documents nécessaires sont :\n- Une copie du baccalauréat\n- Les relevés de notes des deux dernières années\n- Une copie de la carte d'identité\n- Une photo d'identité\n- une copie du certificat de reussite du baccalauréat\n- Une lettre de motivation"
     },
     {
-      question: "Quelle est la durée de la formation en CPGE ?",
-      answer: "La formation en CPGE dure deux ans. La première année est consacrée à l'acquisition des fondamentaux, tandis que la deuxième année se concentre sur la préparation aux concours des grandes écoles."
+      question: "Quelles sont les débouchés après la CPGE ?",
+      answer: "Après la CPGE, vous pouvez :\n- Intégrer une école d'ingénieurs\n- Poursuivre en licence à l'université\n- Préparer les concours de la fonction publique\n- Accéder à des formations spécialisées \n- Postuler à l'étranger "
     },
     {
-      question: "Quels sont les débouchés après les CPGE ?",
-      answer: "Après les CPGE, les étudiants peuvent intégrer des grandes écoles d'ingénieurs, des écoles de commerce, ou poursuivre leurs études à l'université en licence ou master."
-    },
-    {
-      question: "Comment se déroule la sélection des candidats ?",
-      answer: "La sélection se fait en deux étapes : une présélection sur dossier basée sur les résultats scolaires et les lettres de recommandation, suivie d'un entretien pour les candidats présélectionnés."
+      question: "Quel est le coût de la formation ?",
+      answer: "La formation en CPGE est gratuite dans les établissements publics. Les seuls frais à prévoir sont :\n- Les frais d'inscription (15500 FCFA)\n- Les manuels et supports de cours sont soit achetés soit empruntés\n- Les frais de concours sont a vos charge\n- Les frais de vie quotidienne sont a vos charge"
     }
   ], []);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    if (type === 'file' && 'files' in e.target) {
+      const fileInput = e.target as HTMLInputElement;
+      setFormData(prev => ({ ...prev, [name]: fileInput.files?.[0] || null }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
 
   return (
     <div className="container py-5">
@@ -129,86 +194,29 @@ const Admission: React.FC = () => {
         </div>
       </section>
 
-      {/* Section Présentation des filières */}
-      <section className="programs-section mb-5">
-        <h2 className="text-center mb-4">Nos Filières</h2>
-        <div className="row">
-          <div className="col-12 mb-4">
-            <ul className="nav nav-tabs justify-content-center" id="programsTabs" role="tablist">
-              <li className="nav-item" role="presentation">
-                <button 
-                  className={`nav-link ${activeTab === 'mpsi' ? 'active' : ''}`} 
-                  onClick={() => handleTabChange('mpsi')}
-                  type="button"
-                >
-                  MPSI
-                </button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button 
-                  className={`nav-link ${activeTab === 'bcpst' ? 'active' : ''}`} 
-                  onClick={() => handleTabChange('bcpst')}
-                  type="button"
-                >
-                  BCPST
-                </button>
-              </li>
-            </ul>
-          </div>
-          <div className="col-12">
-            <div className="tab-content" id="programsTabContent">
-              <div className={`tab-pane fade ${activeTab === 'mpsi' ? 'show active' : ''}`}>
-                <div className="card border-0 shadow-sm">
-                  <div className="card-body p-4">
-                    <div className="row align-items-center">
-                      <div className="col-md-6">
-                        <h3 className="card-title">Mathématiques, Physique et Sciences de l'Ingénieur (MPSI)</h3>
-                        <p className="card-text">
-                          La filière MPSI est destinée aux étudiants ayant un excellent niveau en mathématiques et physique, et souhaitant s'orienter vers les écoles d'ingénieurs généralistes ou spécialisées.
-                        </p>
-                        <h4>Conditions d'admission :</h4>
-                        <ul>
-                          <li>Baccalauréat scientifique avec mention Bien ou Très Bien</li>
-                          <li>Excellentes notes en mathématiques et physique</li>
-                          <li>Forte capacité de travail et motivation</li>
-                        </ul>
-                        <h4>Nombre de places disponibles :</h4>
-                        <p>30 places</p>
-                      </div>
-                      <div className="col-md-6">
-                        <img src="/images/mpsi.jpg" alt="Classe MPSI" className="img-fluid rounded shadow" />
-                      </div>
-                    </div>
+      {/* Section Filières */}
+      <section className="filieres-section mb-5">
+        <h2 className="text-center mb-4">
+          <FaGraduationCap className="me-2" />
+          Nos Filières
+        </h2>
+        <div className="row g-4">
+          {filieres.map((filiere, index) => (
+            <div key={index} className="col-md-6">
+              <div className="filiere-card">
+                <div className="filiere-icon-container">
+                  {filiere.icon}
+                  <div className="sub-icons-container">
+                    {filiere.subIcons}
                   </div>
                 </div>
-              </div>
-              <div className={`tab-pane fade ${activeTab === 'bcpst' ? 'show active' : ''}`}>
-                <div className="card border-0 shadow-sm">
-                  <div className="card-body p-4">
-                    <div className="row align-items-center">
-                      <div className="col-md-6">
-                        <h3 className="card-title">Biologie, Chimie, Physique et Sciences de la Terre (BCPST)</h3>
-                        <p className="card-text">
-                          La filière BCPST s'adresse aux étudiants intéressés par les sciences de la vie et de la terre, et souhaitant s'orienter vers les écoles d'ingénieurs en agronomie, vétérinaire, ou géologie.
-                        </p>
-                        <h4>Conditions d'admission :</h4>
-                        <ul>
-                          <li>Baccalauréat scientifique avec mention Bien ou Très Bien</li>
-                          <li>Excellentes notes en sciences de la vie et de la terre, chimie et physique</li>
-                          <li>Intérêt marqué pour les sciences expérimentales</li>
-                        </ul>
-                        <h4>Nombre de places disponibles :</h4>
-                        <p>25 places</p>
-                      </div>
-                      <div className="col-md-6">
-                        <img src="/images/bcpst.jpg" alt="Classe BCPST" className="img-fluid rounded shadow" />
-                      </div>
-                    </div>
-                  </div>
+                <div className="filiere-content">
+                  <h3>{filiere.nom}</h3>
+                  <p>{filiere.description}</p>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -285,6 +293,120 @@ const Admission: React.FC = () => {
             <a href="/contact" className="btn btn-light">Contactez-nous</a>
           </div>
         </div>
+      </section>
+
+      {/* Section Formulaire de candidature */}
+      <section className="application-section mb-5">
+        <h2 className="text-center">
+          <FaFileAlt className="me-2" />
+          Formulaire de Candidature
+        </h2>
+        <form className="needs-validation" noValidate>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label htmlFor="nom" className="form-label">Nom complet</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="nom"
+                  name="nom"
+                  value={formData.nom}
+                  onChange={handleInputChange}
+                  placeholder="Entrez votre nom complet"
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label htmlFor="email" className="form-label">Adresse email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="exemple@email.com"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label htmlFor="type_document" className="form-label">Type de document</label>
+                <select
+                  className="form-select"
+                  id="type_document"
+                  name="type_document"
+                  value={formData.typeDocument}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Sélectionnez un type</option>
+                  <option value="devoir">Devoir</option>
+                  <option value="correction">Correction</option>
+                  <option value="cours">Cours</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group mb-3">
+                <label htmlFor="matiere" className="form-label">Matière</label>
+                <select
+                  className="form-select"
+                  id="matiere"
+                  name="matiere"
+                  value={formData.matiere}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Sélectionnez une matière</option>
+                  <option value="mathematiques">Mathématiques</option>
+                  <option value="physique">Physique</option>
+                  <option value="chimie">Chimie</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="form-group mb-3">
+            <label htmlFor="description" className="form-label">Description</label>
+            <textarea
+              className="form-control"
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              placeholder="Décrivez votre document..."
+              required
+            />
+          </div>
+
+          <div className="form-group mb-3">
+            <label htmlFor="fichier" className="form-label">Document à soumettre</label>
+            <input
+              type="file"
+              className="form-control"
+              id="fichier"
+              name="fichier"
+              onChange={handleInputChange}
+              accept=".pdf,.doc,.docx"
+              required
+            />
+            <div className="form-text">Formats acceptés : PDF, DOC, DOCX</div>
+          </div>
+
+          <button type="submit" className="btn btn-primary">
+            <FaFileAlt className="me-2" />
+            Soumettre ma candidature
+          </button>
+        </form>
       </section>
     </div>
   );

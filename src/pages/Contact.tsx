@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaInfoCircle } from 'react-icons/fa';
 import '../styles/Contact.css';
 
 interface ContactFormData {
@@ -65,199 +65,157 @@ const Contact: React.FC = () => {
   }, []);
 
   return (
-    <div className="container py-5">
+    <div className="container-fluid p-0">
       {/* Section Héro */}
       <section className="hero-section text-white text-center mb-5">
         <div className="hero-content">
           <h1 className="display-4 mb-4">Contactez-nous</h1>
           <p className="lead mb-4">
-            Nous sommes à votre écoute pour répondre à toutes vos questions
+            N'hésitez pas à nous contacter pour toute information complémentaire
           </p>
         </div>
       </section>
 
-      {/* Section Informations de contact */}
-      <section className="contact-info-section mb-5">
-        <div className="row">
-          <div className="col-md-6 mb-4 mb-md-0">
-            <div className="card border-0 shadow-sm h-100">
-              <div className="card-body p-4">
-                <h2 className="card-title mb-4">Nos coordonnées</h2>
-                
-                <div className="d-flex mb-4">
-                  <div className="contact-icon">
-                    <FaMapMarkerAlt />
-                  </div>
-                  <div className="ms-3">
-                    <h3 className="h5">Adresse</h3>
-                    <p className="mb-0">Avenue de la Liberté, Ouagadougou, Burkina Faso</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex mb-4">
-                  <div className="contact-icon">
-                    <FaPhone />
-                  </div>
-                  <div className="ms-3">
-                    <h3 className="h5">Téléphone</h3>
-                    <p className="mb-0">+226 25 30 XX XX</p>
-                    <p className="mb-0">+226 70 XX XX XX</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex mb-4">
-                  <div className="contact-icon">
-                    <FaEnvelope />
-                  </div>
-                  <div className="ms-3">
-                    <h3 className="h5">Email</h3>
-                    <p className="mb-0">info@cpge-menapln.bf</p>
-                    <p className="mb-0">admission@cpge-menapln.bf</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex">
-                  <div className="contact-icon">
-                    <FaClock />
-                  </div>
-                  <div className="ms-3">
-                    <h3 className="h5">Horaires d'ouverture</h3>
-                    <p className="mb-0">Lundi - Vendredi: 8h00 - 17h00</p>
-                    <p className="mb-0">Samedi: 9h00 - 12h00</p>
-                    <p className="mb-0">Dimanche: Fermé</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="col-md-6">
-            <div className="card border-0 shadow-sm h-100">
-              <div className="card-body p-4">
-                <h2 className="card-title mb-4">Suivez-nous</h2>
-                
-                <div className="social-media mb-4">
-                  <a href="#" className="social-icon" aria-label="Facebook">
-                    <FaFacebook />
-                  </a>
-                  <a href="#" className="social-icon" aria-label="Twitter">
-                    <FaTwitter />
-                  </a>
-                  <a href="#" className="social-icon" aria-label="LinkedIn">
-                    <FaLinkedin />
-                  </a>
-                  <a href="#" className="social-icon" aria-label="Instagram">
-                    <FaInstagram />
-                  </a>
-                </div>
-                
-                <div className="mb-4">
-                  <h3 className="h5">Direction des CPGE-MENAPLN</h3>
-                  <p>
-                    Pour toute question concernant l'administration ou la direction, veuillez contacter le secrétariat de la direction à l'adresse : direction@cpge-menapln.bf
-                  </p>
-                </div>
-                
+      {/* Section Contact Info et Formulaire */}
+      <section className="contact-section mb-5">
+        <div className="container">
+          <div className="row g-4">
+            {/* Informations de contact */}
+            <div className="col-md-6">
+              <div className="contact-info-card h-100">
                 <div>
-                  <h3 className="h5">Service des admissions</h3>
-                  <p>
-                    Pour toute question concernant les admissions ou les inscriptions, veuillez contacter notre service dédié à l'adresse : admission@cpge-menapln.bf
-                  </p>
+                  <h2 className="contact-info-title">
+                    Informations de Contact
+                    <span className="tooltip-icon" data-tooltip="Nos coordonnées pour vous joindre">
+                      <FaInfoCircle />
+                    </span>
+                  </h2>
+                  <div className="contact-info-item">
+                    <FaMapMarkerAlt className="contact-icon" />
+                    <div>
+                      <h3>Adresse</h3>
+                      <p>2IE Kamboinsin<br />Ouagadougou, Burkina Faso</p>
+                      <span className="tooltip-text">Notre établissement est situé dans le quartier Kamboinsin</span>
+                    </div>
+                  </div>
+                  <div className="contact-info-item">
+                    <FaPhone className="contact-icon" />
+                    <div>
+                      <h3>Téléphone</h3>
+                      <p>+226 XX XX XX XX</p>
+                      <span className="tooltip-text">Appelez-nous pour une réponse immédiate</span>
+                    </div>
+                  </div>
+                  <div className="contact-info-item">
+                    <FaEnvelope className="contact-icon" />
+                    <div>
+                      <h3>Email</h3>
+                      <p>contact@cpge.bf</p>
+                      <span className="tooltip-text">Envoyez-nous un email pour toute question</span>
+                    </div>
+                  </div>
+                  <div className="contact-info-item">
+                    <FaClock className="contact-icon" />
+                    <div>
+                      <h3>Horaires</h3>
+                      <p>Lundi - Vendredi: 8h00 - 18h00</p>
+                      <span className="tooltip-text">Nous sommes disponibles pendant ces horaires</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Section Formulaire de contact */}
-      <section className="contact-form-section bg-light p-4 rounded mb-5">
-        <h2 className="text-center mb-4">Envoyez-nous un message</h2>
-        
-        {submitStatus.show && (
-          <div className={`alert ${submitStatus.isError ? 'alert-danger' : 'alert-success'} mb-4`}>
-            {submitStatus.message}
-          </div>
-        )}
-        
-        <div className="row justify-content-center">
-          <div className="col-md-8">
-            <div className="card border-0 shadow-sm">
-              <div className="card-body p-4">
-                <form onSubmit={handleSubmit}>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="nom" className="form-label">Nom complet</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
-                        id="nom" 
-                        name="nom" 
-                        value={formData.nom}
-                        onChange={handleInputChange}
-                        required 
-                      />
+            {/* Formulaire de contact */}
+            <div className="col-md-6">
+              <div className="contact-form-card h-100">
+                <div>
+                  <h2 className="contact-form-title">
+                    Envoyez-nous un message
+                    <span className="tooltip-icon" data-tooltip="Remplissez ce formulaire pour nous contacter">
+                      <FaInfoCircle />
+                    </span>
+                  </h2>
+                  {submitStatus.show && (
+                    <div className={`alert ${submitStatus.isError ? 'alert-danger' : 'alert-success'} mb-4`}>
+                      {submitStatus.message}
                     </div>
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="email" className="form-label">Email</label>
-                      <input 
-                        type="email" 
-                        className="form-control" 
-                        id="email" 
-                        name="email" 
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required 
-                      />
+                  )}
+                  <form onSubmit={handleSubmit} className="contact-form">
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Votre nom"
+                            name="nom"
+                            value={formData.nom}
+                            onChange={handleInputChange}
+                            required
+                          />
+                          <span className="tooltip-text">Entrez votre nom complet</span>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Votre email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                          />
+                          <span className="tooltip-text">Entrez une adresse email valide</span>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Sujet"
+                            name="sujet"
+                            value={formData.sujet}
+                            onChange={handleInputChange}
+                            required
+                          />
+                          <span className="tooltip-text">Indiquez le sujet de votre message</span>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
+                          <textarea
+                            className="form-control"
+                            placeholder="Votre message"
+                            name="message"
+                            value={formData.message}
+                            onChange={handleInputChange}
+                            rows={5}
+                            required
+                          />
+                          <span className="tooltip-text">Décrivez votre demande en détail</span>
+                        </div>
+                      </div>
+                      <div className="col-12 text-center">
+                        <button 
+                          type="submit" 
+                          className="btn btn-primary btn-lg"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                              Envoi en cours...
+                            </>
+                          ) : 'Envoyer le message'}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="mb-3">
-                    <label htmlFor="sujet" className="form-label">Sujet</label>
-                    <select 
-                      className="form-select" 
-                      id="sujet" 
-                      name="sujet"
-                      value={formData.sujet}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Choisissez un sujet</option>
-                      <option value="admission">Admission</option>
-                      <option value="information">Demande d'information</option>
-                      <option value="partenariat">Partenariat</option>
-                      <option value="autre">Autre</option>
-                    </select>
-                  </div>
-                  
-                  <div className="mb-3">
-                    <label htmlFor="message" className="form-label">Message</label>
-                    <textarea 
-                      className="form-control" 
-                      id="message" 
-                      name="message" 
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                    ></textarea>
-                  </div>
-                  
-                  <div className="text-center">
-                    <button 
-                      type="submit" 
-                      className="btn btn-primary px-4 py-2"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                          Envoi en cours...
-                        </>
-                      ) : 'Envoyer le message'}
-                    </button>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -266,14 +224,20 @@ const Contact: React.FC = () => {
 
       {/* Section Carte */}
       <section className="map-section mb-5">
-        <h2 className="text-center mb-4">Notre emplacement</h2>
-        <div className="card border-0 shadow-sm">
-          <div className="card-body p-0">
+        <div className="container">
+          <div className="map-card">
+            <h2 className="map-title text-center mb-4">Notre Emplacement</h2>
             <div className="map-container">
-              {/* Ici, vous pouvez intégrer une carte Google Maps ou OpenStreetMap */}
-              <div className="map-placeholder d-flex align-items-center justify-content-center">
-                <p className="text-muted">Carte interactive à intégrer ici</p>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15564.475123456789!2d-1.5123456!3d12.3456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xe32a9ad62337c7d%3A0x4c909e96df251e48!2s2IE%20Kamboinsin!5e0!3m2!1sfr!2sbf!4v1709654321234!5m2!1sfr!2sbf"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Emplacement des CPGE au 2IE Kamboinsin"
+              ></iframe>
             </div>
           </div>
         </div>
