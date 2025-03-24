@@ -1,0 +1,45 @@
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/about-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-section, .team-section, .faculty-section {
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.about-section img, .team-section img {
+  transition: transform 0.3s ease;
+}
+
+.about-section img:hover, .team-section img:hover {
+  transform: scale(1.03);
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 0;
+  }
+  
+  .about-section, .team-section, .faculty-section {
+    padding: 1rem;
+  }
+}
