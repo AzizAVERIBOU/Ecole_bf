@@ -1,51 +1,407 @@
-/* Animation de fondu pour les éléments */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Reset de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Styles pour l'en-tête de formation */
-.formation-header {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+/* Styles pour la page Formation */
+.container-fluid {
+  padding: 0;
+  overflow-x: hidden;
 }
 
-.formation-header-content h1 {
-    font-weight: 700;
-    animation: fadeInUp 1s ease;
-    color: #0d6efd;
+/* Bande titre */
+.page-title {
+  width: 100vw;
+  background-color: #000;
+  padding: 2rem 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.formation-header-content .lead {
-    animation: fadeInUp 1s ease;
-    animation-delay: 0.2s;
-    line-height: 1.8;
+.page-title h1 {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 2px;
 }
 
-/* Styles pour les cartes de formation */
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Section Héro */
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('/images/formation-bg.jpg') center/cover;
+  padding: 100px 0;
+  width: 100%;
+  margin-bottom: 3rem;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* Media queries pour la responsivité */
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Section des formations */
+.formations-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+
+.formation-card {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.formation-card:hover {
+  transform: translateY(-10px);
+}
+
+.formation-icon-wrapper {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.formation-icon {
+  font-size: 3rem;
+  color: #0d6efd;
+}
+
+.formation-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.formation-description {
+  color: #666;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Section des objectifs */
+.objectives-section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.objectives-card {
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+}
+
+.objective-item {
+  text-align: center;
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.objective-item:hover {
+  transform: translateY(-5px);
+}
+
+.objective-icon {
+  font-size: 2.5rem;
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+.objective-item h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.objective-item p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Section Parcours */
+.parcours-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.parcours-container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.parcours-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #0d6efd;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.parcours-item {
+  position: relative;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.parcours-content {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.parcours-content:hover {
+  transform: translateX(10px);
+}
+
+.parcours-icon {
+  background-color: #0d6efd;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.parcours-icon svg {
+  font-size: 1.5rem;
+}
+
+.parcours-text {
+  flex-grow: 1;
+}
+
+.parcours-year {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0d6efd;
+  margin-bottom: 0.5rem;
+}
+
+.parcours-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.parcours-description {
+  color: #666;
+  line-height: 1.6;
+}
+
+.parcours-connector {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 4px;
+  height: 40px;
+  background-color: #0d6efd;
+  transform: translateX(-50%);
+}
+
+/* Animation pour le parcours */
+.parcours-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInRight 0.5s ease forwards;
+}
+
+.parcours-item:nth-child(1) { animation-delay: 0.2s; }
+.parcours-item:nth-child(2) { animation-delay: 0.4s; }
+.parcours-item:nth-child(3) { animation-delay: 0.6s; }
+.parcours-item:nth-child(4) { animation-delay: 0.8s; }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Parcours */
+@media screen and (max-width: 768px) {
+  .parcours-line {
+    left: 30px;
+  }
+
+  .parcours-content {
+    margin-left: 60px;
+  }
+
+  .parcours-icon {
+    position: absolute;
+    left: -60px;
+  }
+
+  .parcours-connector {
+    left: 30px;
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .formation-header {
-        padding: 2rem 1rem !important;
-    }
-    
-    .card-body {
-        padding: 1.5rem !important;
-    }
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+
+  .formation-card {
+    margin-bottom: 2rem;
+  }
+
+  .objective-item {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Section des réussites */
+.reussites-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+
+.reussites-section h2 {
+  color: #333;
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.reussites-section h3 {
+  color: #0d6efd;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.reussite-card {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.reussite-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.reussite-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.reussite-icon svg {
+  font-size: 1.8rem;
+}
+
+.reussite-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.8rem;
+}
+
+.reussite-description {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.reussite-pays {
+  display: inline-block;
+  background-color: #e9ecef;
+  color: #0d6efd;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+/* Animation pour les cartes */
+.reussite-card {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.reussite-card:nth-child(1) { animation-delay: 0.2s; }
+.reussite-card:nth-child(2) { animation-delay: 0.4s; }
+.reussite-card:nth-child(3) { animation-delay: 0.6s; }
+.reussite-card:nth-child(4) { animation-delay: 0.8s; }
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .reussite-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .reussite-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .reussite-icon svg {
+    font-size: 1.5rem;
+  }
 }
