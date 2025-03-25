@@ -84,7 +84,7 @@ const FaqItem = memo(({ faq, index }: { faq: FAQ; index: number }) => {
 
 const filieres = [
   {
-    nom: "MPSC",
+    nom: "MPSI",
     description: "Mathématiques, Physique et Sciences de l'Ingénieur",
     icon: <FaCalculator className="filiere-icon" />,
     subIcons: [
