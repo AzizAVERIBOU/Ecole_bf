@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: CPGE_MENAPLN
+    container_name: menapln
     ports:
       - "5173:5173"
     volumes:
