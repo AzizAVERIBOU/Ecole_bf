@@ -16,7 +16,7 @@ const Header: React.FC = () => {
       <div className="header-content">
         <div className="logo">
           <Link to="/">
-            <img src="/images/logo.png" alt="Logo" className="header-logo" />
+            <img src="/images/logo-cpge.jpg" alt="CPGE MENAPLN" className="header-logo" />
           </Link>
         </div>
         <button className="menu-toggle text-dark" onClick={toggleMenu}>
