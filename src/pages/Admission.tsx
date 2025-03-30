@@ -12,10 +12,13 @@ import {
   FaDna,
   FaHeartbeat,
   FaLeaf,
-  FaBug
+  FaBug,
+  FaArrowUp
 } from 'react-icons/fa';
 import '../styles/Admission.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { useNavigate } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 
 interface AdmissionStep {
   id: number;
@@ -52,6 +55,17 @@ interface FormData {
     carteIdentite: File | null;
     lettreMotivation: File | null;
   };
+}
+
+interface AdmissionFormData {
+  nom: string;
+  prenom: string;
+  email: string;
+  telephone: string;
+  dateNaissance: string;
+  niveau: string;
+  filiere: string;
+  message: string;
 }
 
 // Composants mémorisés pour éviter les re-rendus inutiles
@@ -119,32 +133,79 @@ const filieres = [
   }
 ];
 
+const ScrollToTop = memo(() => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  return (
+    <button
+      className={`scroll-to-top ${isVisible ? 'show' : ''}`}
+      onClick={scrollToTop}
+      aria-label="Retour en haut"
+    >
+      <FaArrowUp />
+    </button>
+  );
+});
+
+const ScrollProgress = memo(() => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollProgress = (scrollTop / docHeight) * 100;
+      setProgress(scrollProgress);
+    };
+
+    window.addEventListener('scroll', updateProgress);
+    return () => window.removeEventListener('scroll', updateProgress);
+  }, []);
+
+  return (
+    <div 
+      className="scroll-progress"
+      style={{ transform: `scaleX(${progress / 100})` }}
+    />
+  );
+});
+
 const Admission: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>('mpsi');
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<AdmissionFormData>({
     nom: '',
     prenom: '',
-    dateNaissance: '',
     email: '',
     telephone: '',
-    adresse: '',
-    ville: '',
-    pays: '',
-    filiere: '',
+    dateNaissance: '',
     niveau: '',
-    etablissement: '',
-    moyenneBac: '',
-    mentionBac: '',
-    anneeBac: '',
-    specialiteBac: '',
-    documents: {
-      bac: null,
-      bulletin: null,
-      photo: null,
-      carteIdentite: null,
-      lettreMotivation: null
-    }
+    filiere: '',
+    message: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   
   // Utilisation de useCallback pour les gestionnaires d'événements
   const handleTabChange = useCallback((tab: string) => {
@@ -202,509 +263,294 @@ const Admission: React.FC = () => {
     }
   ], []);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type } = e.target;
-    
-    if (type === 'file' && 'files' in e.target) {
-      const fileInput = e.target as HTMLInputElement;
-      const file = fileInput.files?.[0] || null;
-      
-      // Si le nom du champ contient un point, c'est un champ dans l'objet documents
-      if (name.includes('.')) {
-        const [parent, child] = name.split('.');
-        setFormData(prev => ({
-          ...prev,
-          documents: {
-            ...prev.documents,
-            [child as keyof typeof prev.documents]: file
-          }
-        }));
-      } else {
-        setFormData(prev => ({ ...prev, [name]: file }));
-      }
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  useEffect(() => {
+    // Initialiser EmailJS
+    emailjs.init('YOUR_PUBLIC_KEY');
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      await emailjs.send(
+        'YOUR_SERVICE_ID',
+        'YOUR_TEMPLATE_ID',
+        {
+          from_name: `${formData.prenom} ${formData.nom}`,
+          from_email: formData.email,
+          telephone: formData.telephone,
+          date_naissance: formData.dateNaissance,
+          niveau: formData.niveau,
+          filiere: formData.filiere,
+          message: formData.message
+        }
+      );
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    } catch (err) {
+      setError('Une erreur est survenue lors de l\'envoi du formulaire. Veuillez réessayer.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="container">
-      {/* Section Héro */}
-      <section className="hero-section text-white text-center mb-5">
+    <div className="admission-container">
+      <ScrollProgress />
+      <ScrollToTop />
+      
+      {/* Section Hero */}
+      <section className="hero-section">
         <div className="hero-content">
-          <h1 className="display-4 mb-4">Admission aux CPGE-MENAPLN</h1>
-          <p className="lead mb-4">
-            Rejoignez l'élite des étudiants en classes préparatoires
-          </p>
+          <div className="row align-items-center">
+            <div className="col-md-4 text-center mb-4 mb-md-0">
+              <img 
+                src="/images/logo-cpge.jpg" 
+                alt="CPGE MENAPLN" 
+                className="hero-logo"
+              />
+            </div>
+            <div className="col-md-8">
+              <h1>Admission CPGE MENAPLN</h1>
+              <p className="lead">
+                Préparez votre avenir avec excellence dans notre classe préparatoire aux grandes écoles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Timeline */}
+      <section className="timeline-section">
+        <div className="timeline-container">
+          <h2 className="text-center mb-5">Processus d'Admission</h2>
+          <div className="timeline">
+            {admissionSteps.map((step) => (
+              <TimelineItem key={step.id} step={step} />
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Section Filières */}
-      <section className="filieres-section mb-5">
-        <h2 className="text-center mb-4">
-          <FaGraduationCap className="me-2" />
-          Nos Filières
-        </h2>
-        <div className="row g-4 justify-content-center">
-          {filieres.map((filiere, index) => (
-            <div key={index} className="col-md-5">
-              <div className="filiere-card">
-                <div className="filiere-icon-container">
-                  {filiere.icon}
-                  <div className="sub-icons-container">
-                    {filiere.subIcons}
+      <section className="filieres-section">
+        <div className="filieres-container">
+          <h2 className="text-center mb-5">Nos Filières</h2>
+          <div className="row">
+            {filieres.map((filiere, index) => (
+              <div key={index} className="col-md-6 mb-4">
+                <div className="filiere-card">
+                  <div className="filiere-icon-container">
+                    {filiere.icon}
+                    <div className="sub-icons-container">
+                      {filiere.subIcons}
+                    </div>
+                  </div>
+                  <div className="filiere-content">
+                    <h3>{filiere.nom}</h3>
+                    <p>{filiere.description}</p>
                   </div>
                 </div>
-                <div className="filiere-content">
-                  <h3>{filiere.nom}</h3>
-                  <p>{filiere.description}</p>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Section Processus d'admission */}
-      <section className="admission-process-section bg-light p-4 rounded mb-5">
-        <h2 className="text-center mb-4">Processus d'Admission</h2>
-        <div className="timeline">
-          {admissionSteps.map((step) => (
-            <TimelineItem key={step.id} step={step} />
-          ))}
-        </div>
-      </section>
-
-      {/* Section Calendrier */}
-      <section className="calendar-section mb-5">
-        <h2 className="text-center mb-4">Calendrier d'Admission 2025-2026</h2>
-        <div className="row justify-content-center">
-          <div className="col-md-3 mb-4">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <h3 className="card-title">15 Février 2025</h3>
-                <p className="card-text">Ouverture des inscriptions</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-4">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <h3 className="card-title">30 Avril 2025</h3>
-                <p className="card-text">Clôture des inscriptions</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-4">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <h3 className="card-title">15-30 Mai 2025</h3>
-                <p className="card-text">Entretiens de sélection</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-4">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <h3 className="card-title">15 Juin 2025</h3>
-                <p className="card-text">Publication des résultats</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Section FAQ */}
-      <section className="faq-section mb-5">
-        <h2 className="text-center mb-4">
-          <FaQuestionCircle className="me-2" />
-          Questions Fréquemment Posées
-        </h2>
-        <div className="accordion" id="faqAccordion">
-          {faqs.map((faq, index) => (
-            <FaqItem key={index} faq={faq} index={index} />
-          ))}
-        </div>
-      </section>
-
-      {/* Section Contact */}
-      <section className="contact-section bg-primary text-white p-4 rounded mb-5">
-        <div className="row align-items-center">
-          <div className="col-md-8">
-            <h3>Besoin de plus d'informations ?</h3>
-            <p>Notre équipe d'admission est disponible pour répondre à toutes vos questions. N'hésitez pas à nous contacter.</p>
-          </div>
-          <div className="col-md-4 text-md-end">
-            <a href="/contact" className="btn btn-light">Contactez-nous</a>
+      <section className="faq-section">
+        <div className="faq-container">
+          <h2 className="text-center mb-5">Questions Fréquentes</h2>
+          <div className="accordion">
+            {faqs.map((faq, index) => (
+              <FaqItem key={index} faq={faq} index={index} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Section Formulaire de candidature */}
+      {/* Section Formulaire */}
       <section className="application-section">
-        <h2 className="text-center mb-4">
-          <FaFileAlt className="me-2" />
-          Formulaire de Candidature
-        </h2>
-        <form className="needs-validation" noValidate>
-          {/* Informations personnelles */}
-          <div className="card mb-4">
-            <div className="card-header">
-              <h4 className="mb-0">Informations Personnelles</h4>
-            </div>
+        <div className="form-container">
+          <h2 className="text-center mb-4">
+            <FaFileAlt className="me-2" />
+            Formulaire de Candidature
+          </h2>
+          <div className="card shadow">
             <div className="card-body">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="nom" className="form-label">Nom</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="nom"
-                      name="nom"
-                      value={formData.nom}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
+              {success ? (
+                <div className="alert alert-success">
+                  <FaCheckCircle className="me-2" />
+                  Votre demande d'admission a été envoyée avec succès ! Vous serez redirigé vers la page d'accueil.
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="prenom" className="form-label">Prénom</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="prenom"
-                      name="prenom"
-                      value={formData.prenom}
-                      onChange={handleInputChange}
-                      required
-                    />
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <div className="form-row">
+                      <div className="form-col">
+                        <label htmlFor="nom" className="form-label">Nom</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="nom"
+                          name="nom"
+                          value={formData.nom}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-col">
+                        <label htmlFor="prenom" className="form-label">Prénom</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="prenom"
+                          name="prenom"
+                          value={formData.prenom}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="dateNaissance" className="form-label">Date de naissance</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="dateNaissance"
-                      name="dateNaissance"
-                      value={formData.dateNaissance}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="telephone" className="form-label">Téléphone</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="telephone"
-                      name="telephone"
-                      value={formData.telephone}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="adresse" className="form-label">Adresse</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="adresse"
-                      name="adresse"
-                      value={formData.adresse}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="ville" className="form-label">Ville</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="ville"
-                      name="ville"
-                      value={formData.ville}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="pays" className="form-label">Pays</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="pays"
-                      name="pays"
-                      value={formData.pays}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Informations académiques */}
-          <div className="card mb-4">
-            <div className="card-header">
-              <h4 className="mb-0">Informations Académiques</h4>
-            </div>
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="filiere" className="form-label">Filière souhaitée</label>
+                  <div className="form-group">
+                    <div className="form-row">
+                      <div className="form-col">
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-col">
+                        <label htmlFor="telephone" className="form-label">Téléphone</label>
+                        <input
+                          type="tel"
+                          className="form-control"
+                          id="telephone"
+                          name="telephone"
+                          value={formData.telephone}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <div className="form-row">
+                      <div className="form-col">
+                        <label htmlFor="dateNaissance" className="form-label">Date de Naissance</label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="dateNaissance"
+                          name="dateNaissance"
+                          value={formData.dateNaissance}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-col">
+                        <label htmlFor="niveau" className="form-label">Niveau</label>
+                        <select
+                          className="form-select"
+                          id="niveau"
+                          name="niveau"
+                          value={formData.niveau}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">Sélectionnez un niveau</option>
+                          <option value="Bac">Bac</option>
+                          <option value="Bac+1">Bac+1</option>
+                          <option value="Bac+2">Bac+2</option>
+                          <option value="Bac+3">Bac+3</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="filiere" className="form-label">Filière</label>
                     <select
                       className="form-select"
                       id="filiere"
                       name="filiere"
                       value={formData.filiere}
-                      onChange={handleInputChange}
+                      onChange={handleChange}
                       required
                     >
                       <option value="">Sélectionnez une filière</option>
-                      <option value="mpsi">MPSI</option>
-                      <option value="bcpst">BCPST</option>
+                      <option value="Informatique">Informatique</option>
+                      <option value="Génie Civil">Génie Civil</option>
+                      <option value="Mécanique">Mécanique</option>
+                      <option value="Électrique">Électrique</option>
+                      <option value="Chimie">Chimie</option>
                     </select>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="niveau" className="form-label">Niveau actuel</label>
-                    <select
-                      className="form-select"
-                      id="niveau"
-                      name="niveau"
-                      value={formData.niveau}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Sélectionnez votre niveau</option>
-                      <option value="terminale">Terminale</option>
-                      <option value="bac">Baccalauréat obtenu</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="etablissement" className="form-label">Établissement actuel</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="etablissement"
-                      name="etablissement"
-                      value={formData.etablissement}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="specialiteBac" className="form-label">Spécialité au Bac</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="specialiteBac"
-                      name="specialiteBac"
-                      value={formData.specialiteBac}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="moyenneBac" className="form-label">Moyenne au Bac</label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      className="form-control"
-                      id="moyenneBac"
-                      name="moyenneBac"
-                      value={formData.moyenneBac}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="mentionBac" className="form-label">Mention au Bac</label>
-                    <select
-                      className="form-select"
-                      id="mentionBac"
-                      name="mentionBac"
-                      value={formData.mentionBac}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Sélectionnez la mention</option>
-                      <option value="assez-bien">Assez Bien</option>
-                      <option value="bien">Bien</option>
-                      <option value="tres-bien">Très Bien</option>
-                      <option value="mention-trot">Mention Exelent ( tres bien continue comme ça)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="anneeBac" className="form-label">Année d'obtention du Bac</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="anneeBac"
-                      name="anneeBac"
-                      value={formData.anneeBac}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Documents requis */}
-          <div className="card mb-4">
-            <div className="card-header">
-              <h4 className="mb-0">Documents Requis</h4>
-            </div>
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="bac" className="form-label">Copie du Baccalauréat</label>
-                    <input
-                      type="file"
+                  <div className="form-group">
+                    <label htmlFor="message" className="form-label">Message (Optionnel)</label>
+                    <textarea
                       className="form-control"
-                      id="bac"
-                      name="documents.bac"
-                      onChange={handleInputChange}
-                      accept=".pdf"
-                      required
-                    />
-                    <div className="form-text">Format PDF uniquement</div>
+                      id="message"
+                      name="message"
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                    ></textarea>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="bulletin" className="form-label">Bulletin de notes</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="bulletin"
-                      name="documents.bulletin"
-                      onChange={handleInputChange}
-                      accept=".pdf"
-                      required
-                    />
-                    <div className="form-text">Format PDF uniquement</div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="photo" className="form-label">Photo d'identité</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="photo"
-                      name="documents.photo"
-                      onChange={handleInputChange}
-                      accept=".jpg,.jpeg,.png"
-                      required
-                    />
-                    <div className="form-text">Formats acceptés : JPG, JPEG, PNG</div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mb-3">
-                    <label htmlFor="carteIdentite" className="form-label">Carte d'identité</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="carteIdentite"
-                      name="documents.carteIdentite"
-                      onChange={handleInputChange}
-                      accept=".pdf"
-                      required
-                    />
-                    <div className="form-text">Format PDF uniquement</div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="form-group mb-3">
-                    <label htmlFor="lettreMotivation" className="form-label">Lettre de motivation</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="lettreMotivation"
-                      name="documents.lettreMotivation"
-                      onChange={handleInputChange}
-                      accept=".pdf"
-                      required
-                    />
-                    <div className="form-text">Format PDF uniquement</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="text-center">
-            <button type="submit" className="btn btn-primary btn-lg">
-              <FaFileAlt className="me-2" />
-              Soumettre ma candidature
-            </button>
+                  {error && (
+                    <div className="alert alert-danger">
+                      {error}
+                    </div>
+                  )}
+
+                  <div className="text-center">
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="loading-spinner" />
+                          Envoi en cours...
+                        </>
+                      ) : (
+                        'Envoyer la demande'
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
-        </form>
+        </div>
       </section>
     </div>
   );
 };
 
-export default Admission;
+export default memo(Admission);
