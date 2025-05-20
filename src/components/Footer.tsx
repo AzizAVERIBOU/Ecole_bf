@@ -1,51 +1,73 @@
 import React from "react"
+import '../styles/Footer.css'
 
 const Footer: React.FC = () => {
-
   return (
-    <footer className="py-3 mt-5">
-      <hr />
+    <footer className="footer py-5 mt-5">
       <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-8 text-center">
-            {/* Liens sociaux */}
-            <div className="mb-4">
-              <a href="/" 
-                 target="_blank" 
-                 className={`btn btn-outline-dark mx-2`}
-                 rel="noopener noreferrer">
-                <i className="fab fa-github"></i>
-              </a>
-              <a href="/" 
-                 target="_blank" 
-                 className="btn btn-outline-primary mx-2"
-                 rel="noopener noreferrer">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="/" 
-                 className="btn btn-outline-danger mx-2">
-                <i className="fas fa-envelope"></i>
-              </a>
-            </div>
-            {/* Contact */}
-            <div className="mb-3 d-flex flex-column flex-lg-row justify-content-center align-items-center gap-3">
-              <p className="mb-1">
-                <i className="fas fa-envelope me-2"></i>cpgemenapln@test.com 
-              </p>
-              <p className="mb-0">
-                <i className="fas fa-map-marker-alt me-2"></i>Ouagadougou, Burkina Faso
-              </p>
-            </div>
-            {/* Copyright */}
-            <hr className="my-4" />
-            <p className="text-muted mb-0">
-              &copy; {new Date().getFullYear()} C'est notre projet. Tous droits réservés.
-            </p>
+        <div className="row text-white">
+
+          {/* Logo + slogan */}
+          <div className="col-md-4 mb-4">
+            <img src="/images/logo-cpge.jpg" alt="Logo" style={{ width: "120px",height: "70px" }} className="mb-3" />
+            <p className="fst-italic">Former l’élite de demain, dès aujourd’hui.</p>
+          </div>
+
+          {/* Contact */}
+          <div className="col-md-4 mb-4">
+            <h5>Contact</h5>
+            <div className="underline"></div>
+            <p>2iE Kamboinsin<br />Ouagadougou, Burkina Faso</p>
+            <p>Tél: +226 70 00 00 00</p>
+            <p>Email: cpgemenapln@test.com</p>
+          </div>
+
+          {/* À la une */}
+          <div className="col-md-4 mb-4">
+            <h5>À la une</h5>
+            <div className="underline"></div>
+
+            <a href="/actualite1" className="text-decoration-none text-white">
+              <div className="d-flex mb-3 align-items-center hover-actu">
+                <img src="/images/imageaccroche2.jpg" alt="actu1" style={{ width: "70px", height: "70px", objectFit: "cover" }} />
+                <p className="ms-3 mb-0">Visite du ministre sur le campus</p>
+              </div>
+            </a>
+
+            <a href="/actualite2" className="text-decoration-none text-white">
+              <div className="d-flex align-items-center hover-actu">
+                <img src="/images/imageacroche1.jpeg" alt="actu2" style={{ width: "70px", height: "70px", objectFit: "cover" }} />
+                <p className="ms-3 mb-0">Cérémonie d’ouverture de l’année</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+
+        <hr className="border-light" />
+
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 px-2 px-md-3">
+          <p className=" fs-3 mb-2 mb-md-0" style={{ color: "#d5d1cf" }}>
+            &copy; {new Date().getFullYear()} C'est notre projet. Tous droits réservés.
+          </p>
+
+          <div className="d-flex gap-4 me-md-4">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-white fs-2">
+              <i className="fab fa-github"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white fs-2">
+              <i className="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:cpgemenapln@test.com" className="text-white fs-2">
+              <i className="fas fa-envelope"></i>
+            </a>
           </div>
         </div>
+
+
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;
